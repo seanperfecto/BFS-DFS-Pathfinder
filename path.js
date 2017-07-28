@@ -61,16 +61,16 @@ const makeGraph = (map, width, height) => {
         continue;
       }
       let adj = [];
-      if (map[y-1][x] !== undefined && map[y - 1][x] === 0) {
+      if ((y - 1 > 0) && map[y - 1][x] === 0) {
 					adj.push('' + x + ',' + (y - 1));
 				}
-				if (map[y+1][x] !== undefined && map[y + 1][x] === 0) {
+				if ((y + 1 < map.length) && map[y + 1][x] === 0) {
 					adj.push('' + x + ',' + (y + 1));
 				}
-				if (map[y][x-1] !== undefined && map[y][x - 1] === 0) {
+				if ((x - 1 > 0) && map[y][x - 1] === 0) {
 					adj.push('' + (x - 1) + ',' + y);
 				}
-				if (map[y][x+1] !== undefined && map[y][x + 1] === 0) {
+				if ((x + 1 < map[y].length) && map[y][x + 1] === 0) {
 					adj.push('' + (x + 1) + ',' + y);
 				}
 				graph.push(new Node('' + x + ',' + y, adj));

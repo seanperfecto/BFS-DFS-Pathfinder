@@ -5,7 +5,7 @@ let maze = [[0,1,0,0,0,1],[0,0,0,1,0,1],[0,0,0,0,0,0],
 
 document.addEventListener("DOMContentLoaded", () => {
   let map = makeMap(maze, 19, 19);
-  let rendererOne = makeRenderer(map, 'bfs-graph', 'white', 'green');
+  let rendererOne = makeRenderer(map, 'bfs-graph', 'brown', 'green');
   let rendererTwo = makeRenderer(map, 'dfs-graph', 'white', 'blue');
   drawMap(rendererOne, map);
   drawMap(rendererTwo, map);
@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let pathDFS = [];
   drawPath(rendererOne, startPos, map.cellWidth, map.cellHeight, 'yellow');
   drawPath(rendererOne, targetPos, map.cellWidth, map.cellHeight, '#0f0');
+  pathBFS = calculatePath(map, startPos, targetPos, 'bfs');
+  // runPath(1, pathBFS, rendererOne, map, startPos, targetPos);
 });
 
 const makeMap = (mazeData, width, height) => (
@@ -66,4 +68,38 @@ const drawPath = (renderer, point, width, height, color) => {
   renderer.ctx.fillRect(point[0] * width, point[1] * height, width, height);
   renderer.ctx.strokeStyle="black";
   renderer.ctx.strokeRect(point[0] * width, point[1] * height, width, height);
+};
+
+const runPath = (num, path, renderer, map, startPos, targetPos) => {
+  let pos = 0;
+  console.log(path);
+  	function render(){
+  		if (pos < path.length) {
+  			drawPath(renderer, makePoint(path[pos]), map.cellWidth, map.cellHeight, '#fff');
+  		} else {
+  			drawPath(renderer, targetPos, map.cellWidth, map.cellHeight, '#0f0');
+  			return;
+  		}
+  		pos += 1;
+  		setTimeout(render, num);
+  		drawPoint(renderer, targetPos, map.cellWidth, map.cellHeight, pos % 50 > 30, '#0c0', '#c00');
+  	}
+  	renderer.ctx.globalAlpha = 0.55;
+  	return render();
+};
+
+const makePoint = (point) => (
+  point.split(',').map((v) => { return v | 0; })
+);
+
+const drawPoint = (renderer, point, width, height, useOnColor, onColor, offColor) => {
+	let ctx = renderer.ctx;
+	let color = offColor;
+	ctx.save();
+	ctx.globalAlpha = 1.0;
+	if (useOnColor) {
+		color = onColor;
+	}
+	drawPath(renderer, point, width, height, color);
+	ctx.restore();
 };

@@ -77,7 +77,7 @@ let maze = [[0,1,0,0,0,1],[0,0,0,1,0,1],[0,0,0,0,0,0],
 
 document.addEventListener("DOMContentLoaded", () => {
   let map = makeMap(maze, 19, 19);
-  let rendererOne = makeRenderer(map, 'bfs-graph', 'white', 'green');
+  let rendererOne = makeRenderer(map, 'bfs-graph', 'brown', 'green');
   let rendererTwo = makeRenderer(map, 'dfs-graph', 'white', 'blue');
   drawMap(rendererOne, map);
   drawMap(rendererTwo, map);
@@ -88,6 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let pathDFS = [];
   drawPath(rendererOne, startPos, map.cellWidth, map.cellHeight, 'yellow');
   drawPath(rendererOne, targetPos, map.cellWidth, map.cellHeight, '#0f0');
+  pathBFS = Object(__WEBPACK_IMPORTED_MODULE_0__path_js__["a" /* calculatePath */])(map, startPos, targetPos, 'bfs');
+  // runPath(1, pathBFS, rendererOne, map, startPos, targetPos);
 });
 
 const makeMap = (mazeData, width, height) => (
@@ -138,6 +140,40 @@ const drawPath = (renderer, point, width, height, color) => {
   renderer.ctx.fillRect(point[0] * width, point[1] * height, width, height);
   renderer.ctx.strokeStyle="black";
   renderer.ctx.strokeRect(point[0] * width, point[1] * height, width, height);
+};
+
+const runPath = (num, path, renderer, map, startPos, targetPos) => {
+  let pos = 0;
+  console.log(path);
+  	function render(){
+  		if (pos < path.length) {
+  			drawPath(renderer, makePoint(path[pos]), map.cellWidth, map.cellHeight, '#fff');
+  		} else {
+  			drawPath(renderer, targetPos, map.cellWidth, map.cellHeight, '#0f0');
+  			return;
+  		}
+  		pos += 1;
+  		setTimeout(render, num);
+  		drawPoint(renderer, targetPos, map.cellWidth, map.cellHeight, pos % 50 > 30, '#0c0', '#c00');
+  	}
+  	renderer.ctx.globalAlpha = 0.55;
+  	return render();
+};
+
+const makePoint = (point) => (
+  point.split(',').map((v) => { return v | 0; })
+);
+
+const drawPoint = (renderer, point, width, height, useOnColor, onColor, offColor) => {
+	let ctx = renderer.ctx;
+	let color = offColor;
+	ctx.save();
+	ctx.globalAlpha = 1.0;
+	if (useOnColor) {
+		color = onColor;
+	}
+	drawPath(renderer, point, width, height, color);
+	ctx.restore();
 };
 
 
@@ -203,7 +239,7 @@ const calculatePath = (map, startPos, targetPos, algorithm) => {
   }
   return path;
 };
-/* unused harmony export calculatePath */
+/* harmony export (immutable) */ __webpack_exports__["a"] = calculatePath;
 
 
 const makeGraph = (map, width, height) => {
@@ -214,16 +250,16 @@ const makeGraph = (map, width, height) => {
         continue;
       }
       let adj = [];
-      if (map[y-1][x] !== undefined && map[y - 1][x] === 0) {
+      if ((y - 1 > 0) && map[y - 1][x] === 0) {
 					adj.push('' + x + ',' + (y - 1));
 				}
-				if (map[y+1][x] !== undefined && map[y + 1][x] === 0) {
+				if ((y + 1 < map.length) && map[y + 1][x] === 0) {
 					adj.push('' + x + ',' + (y + 1));
 				}
-				if (map[y][x-1] !== undefined && map[y][x - 1] === 0) {
+				if ((x - 1 > 0) && map[y][x - 1] === 0) {
 					adj.push('' + (x - 1) + ',' + y);
 				}
-				if (map[y][x+1] !== undefined && map[y][x + 1] === 0) {
+				if ((x + 1 < map[y].length) && map[y][x + 1] === 0) {
 					adj.push('' + (x + 1) + ',' + y);
 				}
 				graph.push(new __WEBPACK_IMPORTED_MODULE_0__node_js__["a" /* default */]('' + x + ',' + y, adj));
