@@ -65,7 +65,12 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__path_js__ = __webpack_require__(1);
+
 
 let maze = [[0,1,0,0,0,1],[0,0,0,1,0,1],[0,0,0,0,0,0],
             [0,0,0,1,0,0],[0,1,0,0,0,0],[1,0,0,1,0,0]];
@@ -134,6 +139,187 @@ const drawPath = (renderer, point, width, height, color) => {
   renderer.ctx.strokeStyle="black";
   renderer.ctx.strokeRect(point[0] * width, point[1] * height, width, height);
 };
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__stack_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__queue_js__ = __webpack_require__(4);
+
+
+
+
+const calculatePath = (map, startPos, targetPos, algorithm) => {
+  let graph = makeGraph(map.data, map.width, map.height);
+  let startNode = getNodeById(graph, startPos);
+  let targetNode = getNodeById(graph, targetPos);
+  let path = [];
+  let current = startNode;
+  if (algorithm === 'dfs') {
+    let stack = new __WEBPACK_IMPORTED_MODULE_1__stack_js__["a" /* default */]();
+    stack.push(startNode);
+
+    while (true) {
+      current = stack.top();
+      path.push(current.id);
+      current.visisted = true;
+      if (current.id === targetNode.id) {
+        break;
+      }
+      let unvisited = 0;
+      current.adj.forEach((id) => {
+        let node = getNodeById(graph, id);
+        if (!node.visited) {
+          stack.push(node);
+          unvisited += 1;
+        }
+      });
+      if (unvisited === 0) {
+        stack.pop();
+      }
+    }
+  } else if (algorithm === 'bfs') {
+    let queue = new __WEBPACK_IMPORTED_MODULE_2__queue_js__["a" /* default */]();
+    queue.enqueue(startNode);
+    while (true) {
+      current = queue.dequeue();
+      current.visited = true;
+      path.push(current.id);
+      if (current.id === targetNode.id) {
+        break;
+      }
+      current.adj.forEach((id) => {
+        let node = getNodeById(graph, id);
+        if (!node.visited) {
+          node.visited = true;
+          queue.enqueue(node);
+        }
+      });
+    }
+  }
+  return path;
+};
+/* unused harmony export calculatePath */
+
+
+const makeGraph = (map, width, height) => {
+  let graph = [];
+  for (var y = 0; y < height - 1; y++) {
+    for (var x = 0; x < width - 1; x++) {
+      if (map[y][x] === 1) {
+        continue;
+      }
+      let adj = [];
+      if (map[y-1][x] !== undefined && map[y - 1][x] === 0) {
+					adj.push('' + x + ',' + (y - 1));
+				}
+				if (map[y+1][x] !== undefined && map[y + 1][x] === 0) {
+					adj.push('' + x + ',' + (y + 1));
+				}
+				if (map[y][x-1] !== undefined && map[y][x - 1] === 0) {
+					adj.push('' + (x - 1) + ',' + y);
+				}
+				if (map[y][x+1] !== undefined && map[y][x + 1] === 0) {
+					adj.push('' + (x + 1) + ',' + y);
+				}
+				graph.push(new __WEBPACK_IMPORTED_MODULE_0__node_js__["a" /* default */]('' + x + ',' + y, adj));
+    }
+    return graph;
+  }
+};
+
+const getNodeById = (graph, nodeId) => {
+  return graph.reduce((out, node) => {
+    if (node.id === nodeId) {
+      out = node;
+    }
+    return out;
+  });
+};
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Node {
+  constructor(id, adj){
+    this.id = id;
+		this.adj = adj;
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Node);
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Stack {
+  constructor(){
+    this.items = [];
+    this.length = this.items.length;
+  }
+
+  push(ele){
+    this.length += 1;
+    return this.items.push(ele);
+  }
+
+  pop(){
+    if (this.length > 0) {
+      this.length -= 1;
+    }
+    return this.items.pop();
+  }
+
+  top(){
+    if (this.length > 0) {
+      return this.items[this.length - 1];
+    }
+    return undefined;
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Stack);
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Queue {
+  constructor(ele){
+    if (ele instanceof Array) {
+			this.items = ele;
+		} else {
+			this.items = [];
+		}
+		this.length = this.items.length;
+  }
+
+  enqueue(ele){
+    this.length += 1;
+		return this.items.push(ele);
+  }
+
+  dequeue(){
+    if (this.length > 0) {
+			this.length -= 1;
+		}
+		return this.items.shift();
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Queue);
 
 
 /***/ })
