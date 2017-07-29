@@ -8,11 +8,12 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="./reset.css">
     <link rel="stylesheet" href="./maze.css">
+    <script src="https://use.fontawesome.com/2d03c56782.js"></script>
   </head>
   <body>
     <header>
       <div class='header-container'>
-        <h2>BFS/DFS</h2>
+        <h2>BFS/DFS Pathfinder (by Sean Perfecto)</h2>
         <div class='maze-container'>
           <span id='maze-1'>MAZE 1</span>&nbsp;|&nbsp;
           <span id='maze-2'>MAZE 2</span>&nbsp;|&nbsp;
@@ -30,7 +31,13 @@
         <canvas id='dfs-graph'></canvas>
       </div>
     </div>
-    <button type="button" id="play" name="play">PLAY</button>
-    <button type="button" id="reset" name="reset">RESET</button>
+    <div class='button-container'>
+      <button type="button" id="play" name="play">
+        <i class="fa fa-play" aria-hidden="true"></i>
+      </button>
+      <button type="button" id="reset" name="reset">
+        <i class="fa fa-repeat" aria-hidden="true"></i>
+      </button>
+    </div>
   </body>
 </html>
