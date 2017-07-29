@@ -1,7 +1,34 @@
+body {
+  background-color: #efefef;
+  font-family: 'Roboto', sans-serif;
+}
+
 .bfs-dfs-container {
   margin: 0 auto;
-  max-width: 800px;
+  max-width: 900px;
   width: 100%;
   display: flex;
   justify-content: space-around;
 }
+
+header {
+  height: 55px;
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 1px solid #4f4f4f;
+  margin-bottom: 20px;
+}
+
+.header-container {
+  margin: 0 auto;
+  padding: 0 10px;
+  max-width: 900px;
+  height: 55px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/*.maze-container h4 {
+  display: inline-block;
+}*/
