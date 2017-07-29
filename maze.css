@@ -48,3 +48,12 @@ header {
 .button-container i {
   font-size: 35px;
 }
+
+.button-container button:hover {
+  cursor: pointer;
+}
+
+.maze-container span:hover {
+  cursor: pointer;
+  color: #737373;
+}
