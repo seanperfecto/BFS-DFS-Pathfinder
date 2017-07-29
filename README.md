@@ -1,5 +1,7 @@
 # BFS/DFS Pathfinder
 
+[LIVE LINK](https://seanperfecto.github.io/BFS-DFS-Pathfinder/)
+
 Breadth-first search and depth-first search pathfinder visualizer using
 regular JavaScript (some jQuery) and HTML canvas.
 
