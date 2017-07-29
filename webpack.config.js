@@ -1,7 +1,7 @@
 module.exports = {
-  entry: "./maze.js",
+  entry: "./lib/maze.js",
   output: {
-  	filename: "./bundle.js"
+  	filename: "./lib/bundle.js"
   },
   devtool: 'source-map',
 };
