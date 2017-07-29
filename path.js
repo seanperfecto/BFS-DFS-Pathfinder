@@ -55,8 +55,8 @@ export const calculatePath = (map, startPos, targetPos, algorithm) => {
 
 const makeGraph = (map, width, height) => {
   let graph = [];
-  for (var y = 0; y < height - 1; y++) {
-    for (var x = 0; x < width - 1; x++) {
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
       if (map[y][x] === 1) {
         continue;
       }
@@ -75,8 +75,8 @@ const makeGraph = (map, width, height) => {
 				}
 				graph.push(new Node('' + x + ',' + y, adj));
     }
-    return graph;
   }
+  return graph;
 };
 
 const getNodeById = (graph, nodeId) => {

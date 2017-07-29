@@ -10,14 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
   drawMap(rendererOne, map);
   drawMap(rendererTwo, map);
 
-  let startPos = [0,0];
-  let targetPos = [5,5];
+  let startPos = '0,0';
+  let targetPos = '5,5';
   let pathBFS = [];
   let pathDFS = [];
-  drawPath(rendererOne, startPos, map.cellWidth, map.cellHeight, 'yellow');
-  drawPath(rendererOne, targetPos, map.cellWidth, map.cellHeight, '#0f0');
+  drawPath(rendererOne, makePoint(startPos), map.cellWidth, map.cellHeight, 'yellow');
+  drawPath(rendererOne, makePoint(targetPos), map.cellWidth, map.cellHeight, '#0f0');
   pathBFS = calculatePath(map, startPos, targetPos, 'bfs');
-  // runPath(1, pathBFS, rendererOne, map, startPos, targetPos);
+  runPath(100, pathBFS, rendererOne, map, startPos, targetPos);
 });
 
 const makeMap = (mazeData, width, height) => (

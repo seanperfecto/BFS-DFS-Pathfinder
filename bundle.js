@@ -82,14 +82,14 @@ document.addEventListener("DOMContentLoaded", () => {
   drawMap(rendererOne, map);
   drawMap(rendererTwo, map);
 
-  let startPos = [0,0];
-  let targetPos = [5,5];
+  let startPos = '0,0';
+  let targetPos = '5,5';
   let pathBFS = [];
   let pathDFS = [];
-  drawPath(rendererOne, startPos, map.cellWidth, map.cellHeight, 'yellow');
-  drawPath(rendererOne, targetPos, map.cellWidth, map.cellHeight, '#0f0');
+  drawPath(rendererOne, makePoint(startPos), map.cellWidth, map.cellHeight, 'yellow');
+  drawPath(rendererOne, makePoint(targetPos), map.cellWidth, map.cellHeight, '#0f0');
   pathBFS = Object(__WEBPACK_IMPORTED_MODULE_0__path_js__["a" /* calculatePath */])(map, startPos, targetPos, 'bfs');
-  // runPath(1, pathBFS, rendererOne, map, startPos, targetPos);
+  runPath(100, pathBFS, rendererOne, map, startPos, targetPos);
 });
 
 const makeMap = (mazeData, width, height) => (
@@ -244,8 +244,8 @@ const calculatePath = (map, startPos, targetPos, algorithm) => {
 
 const makeGraph = (map, width, height) => {
   let graph = [];
-  for (var y = 0; y < height - 1; y++) {
-    for (var x = 0; x < width - 1; x++) {
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
       if (map[y][x] === 1) {
         continue;
       }
@@ -264,8 +264,8 @@ const makeGraph = (map, width, height) => {
 				}
 				graph.push(new __WEBPACK_IMPORTED_MODULE_0__node_js__["a" /* default */]('' + x + ',' + y, adj));
     }
-    return graph;
   }
+  return graph;
 };
 
 const getNodeById = (graph, nodeId) => {
